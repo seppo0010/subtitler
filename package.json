@@ -1,0 +1,38 @@
+{
+  "name": "subtitler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "node index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/seppo0010/isthisacrossoverepisode.com-datamaker.git"
+  },
+  "keywords": [],
+  "author": "Sebastian Waisbrot",
+  "license": "BSD-3-Clause",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/seppo0010/subtitler/issues"
+  },
+  "homepage": "https://github.com/seppo0010/subtitler#readme",
+  "dependencies": {
+    "episode-parser": "^2.0.2",
+    "node-fetch": "^3.2.5",
+    "opensubtitles-api": "^5.1.2",
+    "opensubtitles.com": "^1.0.0",
+    "walk": "^2.3.15"
+  },
+  "devDependencies": {
+    "eslint": "^8.16.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.0",
+    "eslint-plugin-promise": "^6.0.0"
+  }
+}
