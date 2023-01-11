@@ -28,6 +28,7 @@ const OpenSubtitles = new OS_API({
   ssl: true
 })
 
+const pathToSrt = (path) => path.substring(0, path.length - 3) + 'srt'
 const getSubtitleFromOpenSubtitle = async (path, episode) => {
   const { moviehash } = await OpenSubtitles.hash(path)
   try {
@@ -45,8 +46,7 @@ const getSubtitleFromOpenSubtitle = async (path, episode) => {
     })
     const response = await fetch(link)
     const text = await response.text()
-    // This is a bad side-effect... maybe it should be a configuration...
-    fs.writeFileSync(path.substring(0, path.length - 3) + 'srt', text)
+    fs.writeFileSync(pathToSrt(path), text)
   } catch (e) {
     process.stderr.write(`failed to fetch subtitle for ${path}: ${e.toString()}`)
   }
@@ -71,14 +71,25 @@ const getSubtitleFromOpenSubtitle = async (path, episode) => {
     followLinks: true,
     listeners: {
       file: async (root, fileStats, next) => {
-        if (fileStats.type !== 'file') return
-        if (fileStats.name.endsWith('.srt')) return
         try {
+          if (fileStats.type !== 'file') {
+            process.stderr.write(`skipping not a file ${fileStats.name}\n`)
+            return
+          }
+          if (fileStats.name.endsWith('.srt')) {
+            process.stderr.write(`skipping subtitle file ${fileStats.name}\n`)
+            return
+          }
+          if (fs.existsSync(pathToSrt(fileStats.name))) {
+            process.stderr.write(`skipping video that has a subtitle ${fileStats.name}\n`)
+            return
+          }
           await processFile(path.join(root, fileStats.name))
         } catch (e) {
           console.warn(e)
+        } finally {
+          next()
         }
-        next()
       }
     }
   })
