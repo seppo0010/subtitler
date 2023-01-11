@@ -6,10 +6,18 @@ import OS from 'opensubtitles.com'
 import OS_API from 'opensubtitles-api'
 import fetch from 'node-fetch'
 
-const sourceDirectory = (process.env.DATAMAKER_SRC_DIR || 'data').replace(/\/+$/, '') + '/'
+if (!process.env.DATAMAKER_SRC_DIR) {
+  process.stderr.write('missing DATAMAKER_SRC_DIR\n')
+  process.exit(1)
+}
+const sourceDirectory = process.env.DATAMAKER_SRC_DIR.replace(/\/+$/, '') + '/'
 
-if (!process.env.OSDB_API_KEY || !process.env.OSDB_USERNAME || !process.env.OSDB_PASSWORD) {
-  process.stderr.write('missing OSDB_API_KEY, OSDB_USERNAME or OSDB_PASSWORD\n')
+if (
+  !process.env.OSDB_QUERY ||
+    !process.env.OSDB_API_KEY ||
+    !process.env.OSDB_USERNAME ||
+    !process.env.OSDB_PASSWORD) {
+  process.stderr.write('missing OSDB_QUERY, OSDB_API_KEY, OSDB_USERNAME or OSDB_PASSWORD\n')
   process.exit(1)
 }
 const os = new OS({ apikey: process.env.OSDB_API_KEY })
