@@ -13,11 +13,11 @@ if (!process.env.DATAMAKER_SRC_DIR) {
 const sourceDirectory = process.env.DATAMAKER_SRC_DIR.replace(/\/+$/, '') + '/'
 
 if (
-  !process.env.OSDB_QUERY ||
+  (!process.env.OSDB_QUERY && !process.env.OSDB_TMDB_ID) ||
     !process.env.OSDB_API_KEY ||
     !process.env.OSDB_USERNAME ||
     !process.env.OSDB_PASSWORD) {
-  process.stderr.write('missing OSDB_QUERY, OSDB_API_KEY, OSDB_USERNAME or OSDB_PASSWORD\n')
+  process.stderr.write('missing OSDB_QUERY/OSDB_TMDB_ID, OSDB_API_KEY, OSDB_USERNAME or OSDB_PASSWORD\n')
   process.exit(1)
 }
 const os = new OS({ apikey: process.env.OSDB_API_KEY })
@@ -32,11 +32,15 @@ const pathToSrt = (path) => path.substring(0, path.length - 3) + 'srt'
 const getSubtitleFromOpenSubtitle = async (path, episode) => {
   const { moviehash } = await OpenSubtitles.hash(path)
   try {
+    const searchTerms = {}
+    if (process.env.OSDB_QUERY) searchTerms.query = process.env.OSDB_QUERY
+    if (process.env.OSDB_TMDB_ID) searchTerms.tmdb_id = process.env.OSDB_TMDB_ID
     const { data } = await os.subtitles({
       moviehash,
       query: process.env.OSDB_QUERY,
       season_number: episode.season,
-      episode_number: episode.episode
+      episode_number: episode.episode,
+      ...searchTerms
       // sending `languages` here should work but it throws an error
     })
     const sub = data.filter((row) => row.attributes.language === process.env.OSDB_LANGUAGE)[0]
