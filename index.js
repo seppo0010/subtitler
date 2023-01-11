@@ -72,6 +72,7 @@ const getSubtitleFromOpenSubtitle = async (path, episode) => {
     listeners: {
       file: async (root, fileStats, next) => {
         if (fileStats.type !== 'file') return
+        if (fileStats.name.endsWith('.srt')) return
         try {
           await processFile(path.join(root, fileStats.name))
         } catch (e) {
