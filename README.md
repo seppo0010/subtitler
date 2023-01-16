@@ -1,6 +1,6 @@
 # Subtitler
 
-Download substitles for all videos in a directory
+Download subtitles for all videos in a directory
 
 ## Setup
 
