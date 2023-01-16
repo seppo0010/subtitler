@@ -6,11 +6,11 @@ import OS from 'opensubtitles.com'
 import OS_API from 'opensubtitles-api'
 import fetch from 'node-fetch'
 
-if (!process.env.DATAMAKER_SRC_DIR) {
-  process.stderr.write('missing DATAMAKER_SRC_DIR\n')
+if (!process.env.SUBTITLER_SRC_DIR) {
+  process.stderr.write('missing SUBTITLER_SRC_DIR\n')
   process.exit(1)
 }
-const sourceDirectory = process.env.DATAMAKER_SRC_DIR.replace(/\/+$/, '') + '/'
+const sourceDirectory = process.env.SUBTITLER_SRC_DIR.replace(/\/+$/, '') + '/'
 
 if (
   (!process.env.OSDB_QUERY && !process.env.OSDB_TMDB_ID) ||
