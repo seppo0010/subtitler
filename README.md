@@ -4,6 +4,8 @@ Download subtitles for all videos in a directory
 
 ## Setup
 
+Get your [api key](https://www.opensubtitles.com/en/consumers).
+
 Create an environment file
 ```
 OSDB_LANGUAGE=en
