@@ -25,7 +25,7 @@
     "episode-parser": "^2.0.2",
     "node-fetch": "^3.2.5",
     "opensubtitles-api": "^5.1.2",
-    "opensubtitles.com": "^1.0.0",
+    "opensubtitles.com": "^1.1.0",
     "walk": "^2.3.15"
   },
   "devDependencies": {
